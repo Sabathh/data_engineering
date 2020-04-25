@@ -9,8 +9,8 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 # CREATE TABLES
 
 songplay_table_create = (""" CREATE TABLE IF NOT EXISTS songplays (songplay_id int PRIMARY KEY,
-                                                                   start_time float REFERENCES time(start_time), 
-                                                                   user_id int REFERENCES users(user_id), 
+                                                                   start_time float NOT NULL REFERENCES time(start_time), 
+                                                                   user_id int NOT NULL REFERENCES users(user_id), 
                                                                    level varchar, 
                                                                    song_id varchar REFERENCES songs(song_id), 
                                                                    artist_id varchar REFERENCES artists(artist_id), 
@@ -20,21 +20,21 @@ songplay_table_create = (""" CREATE TABLE IF NOT EXISTS songplays (songplay_id i
 """)
 
 user_table_create = (""" CREATE TABLE IF NOT EXISTS users (user_id int PRIMARY KEY, 
-                                                           first_name varchar, 
+                                                           first_name varchar NOT NULL, 
                                                            last_name varchar, 
                                                            gender varchar, 
                                                            level varchar)
 """)
 
 song_table_create = (""" CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, 
-                                                           title varchar, 
-                                                           artist_id varchar, 
+                                                           title varchar NOT NULL, 
+                                                           artist_id varchar NOT NULL, 
                                                            year int, 
-                                                           duration float)
+                                                           duration float NOT NULL)
 """)
 
 artist_table_create = (""" CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, 
-                                                               name varchar, 
+                                                               name varchar NOT NULL, 
                                                                location varchar, 
                                                                latitude float, 
                                                                longitude float)
