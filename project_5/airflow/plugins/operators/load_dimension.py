@@ -9,7 +9,6 @@ class LoadDimensionOperator(BaseOperator):
     @apply_defaults
     def __init__(self,
                  redshift_conn_id="",
-                 table="",
                  sql = "",
                  truncate="",
                  *args, **kwargs):
@@ -17,9 +16,12 @@ class LoadDimensionOperator(BaseOperator):
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
         
         self.redshift_conn_id = redshift_conn_id
-        self.table = table
+        
         self.sql = sql
         self.truncate = truncate
+
+        self.table = kwargs['params']['table']
+        self.fields = kwargs['params']['fields']
 
     def execute(self, context):
         self.log.info(f'Loading data into {self.table} (dimensions table)')
@@ -28,5 +30,6 @@ class LoadDimensionOperator(BaseOperator):
 
         if self.truncate:
             redshift.run(f"TRUNCATE TABLE {self.table}")
-            
-        redshift.run(self.sql)
+
+        redshift.run(f"INSERT INTO {self.table} ({','.join(self.fields)}) {self.sql}")
+        #redshift.run(self.sql)

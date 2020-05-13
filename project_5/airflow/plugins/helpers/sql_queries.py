@@ -1,15 +1,5 @@
 class SqlQueries:
     songplay_table_insert = ("""
-        INSERT INTO songplays (
-        start_time,
-        userid,
-        level,
-        songid,
-        artistid,
-        sessionid,
-        location,
-        user_agent,
-        playid)
         SELECT DISTINCT
                 TIMESTAMP 'epoch' + events.ts/1000 * interval '1 second'
                 AS start_time,
@@ -37,25 +27,17 @@ class SqlQueries:
     """)
 
     user_table_insert = ("""
-        INSERT INTO users (userid, first_name, last_name, gender, level)
         SELECT distinct userid, firstname, lastname, gender, level
         FROM staging_events
         WHERE page='NextSong' AND userid is not NULL
     """)
 
     song_table_insert = ("""
-        INSERT INTO songs (songid, title, artistid, year, duration)
         SELECT distinct song_id, title, artist_id, year, duration
         FROM staging_songs
     """)
 
     artist_table_insert = ("""
-        INSERT INTO artists (
-        artistid,
-        name,
-        location,
-        latitude,
-        longitude)
         SELECT distinct artist_id,
         artist_name,
         artist_location,
@@ -65,7 +47,6 @@ class SqlQueries:
     """)
 
     time_table_insert = ("""
-        INSERT INTO time (start_time, hour, day, week, month, year, weekday)
         SELECT start_time, extract(hour from start_time), extract(day from start_time), extract(week from start_time), 
                extract(month from start_time), extract(year from start_time), extract(dayofweek from start_time)
         FROM songplays

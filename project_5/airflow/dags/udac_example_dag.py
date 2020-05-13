@@ -60,7 +60,10 @@ load_songplays_table = LoadFactOperator(
     task_id='Load_songplays_fact_table',
     dag=dag,
     redshift_conn_id="redshift",
-    table="songplays_fact_table",
+    params={
+        'table': 'songplays',
+        'fields': ['start_time', 'userid', 'level', 'songid', 'artistid', 'sessionid', 'location', 'user_agent', 'playid']
+    },
     sql=SqlQueries.songplay_table_insert
 )
 
@@ -68,7 +71,10 @@ load_user_dimension_table = LoadDimensionOperator(
     task_id='Load_user_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    table="user_dim_table",
+    params={
+        'table': 'users',
+        'fields': ['userid', 'first_name', 'last_name', 'gender', 'level']
+    },
     sql=SqlQueries.user_table_insert
 )
 
@@ -76,7 +82,10 @@ load_song_dimension_table = LoadDimensionOperator(
     task_id='Load_song_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    table="song_dim_table",
+    params={
+        'table': 'songs',
+        'fields': ['songid', 'title', 'artistid', 'year', 'duration']
+    },
     sql=SqlQueries.song_table_insert
 )
 
@@ -84,7 +93,10 @@ load_artist_dimension_table = LoadDimensionOperator(
     task_id='Load_artist_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    table="artist_dim_table",
+    params={
+        'table': 'artists',
+        'fields': ['artistid', 'name', 'location', 'latitude', 'longitude']
+    },
     sql=SqlQueries.artist_table_insert
 )
 
@@ -92,7 +104,10 @@ load_time_dimension_table = LoadDimensionOperator(
     task_id='Load_time_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    table="time_dim_table",
+    params={
+        'table': 'time',
+        'fields': ['start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday']
+    },
     sql=SqlQueries.time_table_insert
 )
 
