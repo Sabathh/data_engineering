@@ -39,4 +39,7 @@ class Transformer:
         # Rename type column to airport_type
         df_airports_clean = df_airports_clean.withColumnRenamed('type','airport_type')
 
+        # Cast elevation_ft to float
+        df_airports_clean = df_airports_clean.withColumn("elevation_ft", F.col("elevation_ft").cast("float"))
+
         return df_airports_clean
