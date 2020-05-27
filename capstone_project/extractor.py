@@ -101,3 +101,9 @@ class Extractor:
         Returns Spark Dataframe containing visa data
         """
         return self._load_csv(self.filepaths['visa'])
+
+    def get_ports_data(self) -> DataFrame:
+        """
+        Returns Spark Dataframe containing ports data
+        """
+        return self._load_csv(self.filepaths['ports'])
