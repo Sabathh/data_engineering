@@ -104,3 +104,38 @@ class Transformer:
                        .withColumn("departure_from_usa", F.expr("date_add(date_baseline, departure_from_usa_sas)"))  
         
         return df_i94_clean
+
+    @staticmethod
+    def clean_city_data(df_cities:DataFrame) -> DataFrame:
+        """
+        Cleans df_cities. Renames columns and converts values to the type specified in the schema
+
+        Args:
+            df_cities (DataFrame): Spark Dataframe with city data
+
+        Returns:
+            DataFrame: Spark Dataframe with cleaned city data
+        """
+
+        df_cities_clean = df_cities \
+                          .withColumnRenamed('State Code', 'state_code') \
+                          .withColumnRenamed('State', 'state') \
+                          .withColumnRenamed('City', 'city') \
+                          .withColumn('median_age', F.col('Median Age').cast('float')) \
+                          .drop('Median Age') \
+                          .withColumn('male_pop', F.col('Male Population').cast('integer')) \
+                          .drop('Male Population') \
+                          .withColumn('female_pop', F.col('Female Population').cast('integer')) \
+                          .drop('Female Population') \
+                          .withColumn('total_pop', F.col('Total Population').cast('integer')) \
+                          .drop('Total Population') \
+                          .withColumn('num_veterans', F.col('Number of Veterans').cast('integer')) \
+                          .drop('Number of Veterans') \
+                          .withColumn('num_foreigners', F.col('Foreign-born').cast('integer')) \
+                          .drop('Foreign-born') \
+                          .withColumn('avg_household_size', F.col('Average Household Size').cast('float')) \
+                          .drop('Average Household Size') \
+                          .withColumnRenamed('Race', 'race') \
+                          .withColumnRenamed('Count', 'count')
+
+        return df_cities_clean
