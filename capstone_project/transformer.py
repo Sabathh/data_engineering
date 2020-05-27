@@ -139,3 +139,55 @@ class Transformer:
                           .withColumnRenamed('Count', 'count')
 
         return df_cities_clean
+
+    @staticmethod
+    def clean_visa_data(df_visas:DataFrame) -> DataFrame:
+        """
+        Cleans df_visas. Converts values to the type specified in the schema
+
+        Args:
+            df_visas (DataFrame): Spark Dataframe with visa data
+
+        Returns:
+            DataFrame: Spark Dataframe with cleaned visa data
+        """
+
+        df_visas_clean = df_visas \
+                         .withColumn('visa_code', F.col('visa_code').cast('integer'))
+
+        return df_visas_clean
+
+    @staticmethod
+    def clean_trasnp_modes_data(df_trasnp_modes:DataFrame) -> DataFrame:
+        """
+        Cleans df_trasnp_modes. Converts values to the type specified in the schema
+
+        Args:
+            df_trasnp_modes (DataFrame): Spark Dataframe with transport mode data
+
+        Returns:
+            DataFrame: Spark Dataframe with cleaned transport mode data
+        """
+
+        df_trasnp_modes_clean = df_trasnp_modes \
+                                .withColumn('transport_mode_code', F.col('transport_mode_code').cast('integer'))
+
+        return df_trasnp_modes_clean
+
+    @staticmethod
+    def clean_countries_data(df_countries:DataFrame) -> DataFrame:
+        """
+        Cleans df_countries. Converts values to the type specified in the schema
+
+        Args:
+            df_countries (DataFrame): Spark Dataframe with countries data
+
+        Returns:
+            DataFrame: Spark Dataframe with cleaned countries data
+        """
+
+        df_countries_clean = df_countries \
+                             .withColumn('country_id', F.col('country_id').cast('integer'))
+
+        return df_countries_clean
+
