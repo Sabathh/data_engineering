@@ -107,3 +107,9 @@ class Extractor:
         Returns Spark Dataframe containing ports data
         """
         return self._load_csv(self.filepaths['ports'])
+
+    def get_countries_data(self) -> DataFrame:
+        """
+        Returns Spark Dataframe containing countries data
+        """
+        return self._load_csv(self.filepaths['countries'])
