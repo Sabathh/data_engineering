@@ -7,7 +7,7 @@ from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, dat
 
 
 config = configparser.ConfigParser()
-config.read('project_4/dl.cfg')
+config.read('dl.cfg')
 
 os.environ['AWS_ACCESS_KEY_ID']=config['AWS']['AWS_ACCESS_KEY_ID']
 os.environ['AWS_SECRET_ACCESS_KEY']=config['AWS']['AWS_SECRET_ACCESS_KEY']
@@ -53,7 +53,7 @@ def process_song_data(spark, song_df, output_data):
 def process_log_data(spark, song_df, log_df, output_data):
     ## get filepath to log data file
     #log_data = input_data + "log_data/*.json"
-#
+    #
     ## read log data file
     #log_df = spark.read.json(log_data)
 
@@ -122,7 +122,7 @@ def process_log_data(spark, song_df, log_df, output_data):
 
 def loadData(spark, input_data, output_data):
     # get filepath to song data file 
-    song_data = input_data + "song_data/A/A/A/*.json"
+    song_data = input_data + "song_data/*/*/*/*.json"
         
     # read song data file
     song_df = spark.read.json(song_data)
@@ -136,10 +136,8 @@ def loadData(spark, input_data, output_data):
 
 def main():
     spark = create_spark_session()
-    #input_data = "s3a://udacity-dend/"
-    input_data = "C:/GoogleDrive/Udacity/Data Engineering/project_4/data/"
-    #output_data = "s3a://sabathh-us-west-2/"
-    output_data = "C:/GoogleDrive/Udacity/Data Engineering/project_4/data/"
+    input_data = "s3a://udacity-dend/"
+    output_data = "s3a://sabathh-us-west-2/"
     
     song_df, log_df = loadData(spark, input_data, output_data)
 
