@@ -30,8 +30,7 @@ class Transformer:
         df_airports_clean = df_airports_clean.withColumn('state', F.substring(F.col('iso_region'), -2, 2)).drop('iso_region')
 
         # Replace invalid states with '99'
-        df_airports_clean = df_airports_clean.withColumn('state', \
-                                                         F.when(F.col('state').isin(states_list), F.col('state')) \
+        df_airports_clean = df_airports_clean.withColumn('state_code', \
                                                          .otherwise('99'))
         
         # Filter closed airports
@@ -96,6 +95,14 @@ class Transformer:
                         .drop('depdate') \
                         .withColumn('visa_type', F.col('visatype')) \
                         .drop('visatype')
+        
+        # Get list of states
+        states_list = [x.state_code for x in df_states.select('state_code').distinct().collect()]
+
+        # Replace invalid states with '99'
+        df_i94_clean = df_i94_clean.withColumn('state_code', \
+                                               F.when(F.col('state_code').isin(states_list), F.col('state_code')) \
+                                               .otherwise('99'))
         
         # Convert arrival_date_sas and departure_from_usa_sas to date using a date baseline of 01/01/1960
         df_i94_clean = df_i94_clean \
