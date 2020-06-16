@@ -27,11 +27,11 @@ class Transformer:
         df_airports_clean = df_airports.filter(df_airports.iso_country == 'US')
 
         # Create 'state' column
-        df_airports_clean = df_airports_clean.withColumn('state', F.substring(F.col('iso_region'), -2, 2)).drop('iso_region')
+        df_airports_clean = df_airports_clean.withColumn('state_code', F.substring(F.col('iso_region'), -2, 2)).drop('iso_region')
 
         # Replace invalid states with '99'
         df_airports_clean = df_airports_clean.withColumn('state_code', \
-                                                         .otherwise('99'))
+                                                         F.when(F.col('state_code').isin(states_list), F.col('state_code')) \
         
         # Filter closed airports
         df_airports_clean = df_airports_clean.filter(F.col('type') != 'closed')
