@@ -32,6 +32,7 @@ class Transformer:
         # Replace invalid states with '99'
         df_airports_clean = df_airports_clean.withColumn('state_code', \
                                                          F.when(F.col('state_code').isin(states_list), F.col('state_code')) \
+                                                         .otherwise('99'))
         
         # Filter closed airports
         df_airports_clean = df_airports_clean.filter(F.col('type') != 'closed')
@@ -45,7 +46,7 @@ class Transformer:
         return df_airports_clean
 
     @staticmethod
-    def clean_i94_data(df_i94:DataFrame) -> DataFrame:
+    def clean_i94_data(df_i94:DataFrame, df_states:DataFrame) -> DataFrame:
         """
         Cleans df_i94. Renames columns and converts values to the type specified in the schema. Creates arrival_date and departure_from_usa columns
 
